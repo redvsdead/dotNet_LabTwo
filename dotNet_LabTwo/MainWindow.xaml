@@ -4,9 +4,75 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dotNet_LabTwo"
+        xmlns:ViewModels="clr-namespace:dotNet_LabTwo.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Window.DataContext>
+        <ViewModels:UserListViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary Source="AppStyles.xaml"/>
+    </Window.Resources>
+    <Grid Style="{StaticResource WindowStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+        <CheckBox Grid.Row="0" Grid.ColumnSpan="2" Content="Сгруппировать по группе инвалидности" IsChecked="{Binding IsGrouped}" FontFamily="Courier New" Margin="10, 10, 0, 0"/>
+        <DataGrid ColumnHeaderStyle="{StaticResource headStyle}" Style="{StaticResource DataStyle}" x:Name="dvgUsers" Grid.Column="0" Grid.Row ="1" SelectedItem="{Binding SelectedUser}"  
+                  ItemsSource="{Binding UserList}" IsSynchronizedWithCurrentItem="True" GridLinesVisibility="None" AutoGenerateColumns="False"
+                  RowStyle="{StaticResource gridRowStyle}" HeadersVisibility="Column">
+            <DataGrid.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource groupStyle}"/>
+            </DataGrid.GroupStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=FullName}" Header="ФИ" CanUserResize="False" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Path=Group}" Header="Группа" CanUserResize="False" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Path=DiseaseCount}" Header="К-во заболеваний" CanUserResize="False" Width="*"/>
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0" CornerRadius="0" Margin="5,5,5,5">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding FullName}" Margin="10,0,0,0" />
+                            </StackPanel>
+                            <DataGrid ItemsSource="{Binding Diseases}" ColumnHeaderStyle="{StaticResource headStyle}" Style="{StaticResource DataStyle}" 
+                             IsSynchronizedWithCurrentItem="True" GridLinesVisibility="None" AutoGenerateColumns="False" HeadersVisibility="Column">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Path=Type}" Header="Тип заболевания" CanUserResize="False" Width="342"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Имя" Style="{StaticResource blockStyle}" Grid.Row="0" Grid.Column="0"/>
+            <TextBox x:Name="Name" Style="{StaticResource textStyle}" Text="{Binding SelectedUser.Name}" Grid.Row="0" Grid.Column="1"/>
+            <TextBlock Text="Фамилия" Style="{StaticResource blockStyle}" Grid.Row="1" Grid.Column="0"/>
+            <TextBox x:Name="Surname" Style="{StaticResource textStyle}" Text="{Binding SelectedUser.Surname}" Grid.Row="1" Grid.Column="1"/>
+            <TextBlock Text="Группа" Style="{StaticResource blockStyle}" Grid.Row="2" Grid.Column="0"/>
+            <TextBox x:Name="Group" Style="{StaticResource textStyle}" Text="{Binding SelectedUser.Group}" Grid.Row="2" Grid.Column="1"/>
+            <TextBlock Text="К-во заболеваний" Style="{StaticResource blockStyle}" Grid.Row="3" Grid.Column="0"/>
+            <TextBox x:Name="DiseaseCount" Style="{StaticResource textStyle}" Text="{Binding SelectedUser.DiseaseCount, Mode=OneWay}" Grid.Row="3" Grid.Column="1"/>
+            <Button x:Name="btnDelete" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center"  Content="Удалить" Command="{Binding removeCommand}" CommandParameter="{Binding SelectedUser}" Background="#ffffff" FontWeight="Bold" FontFamily="Courier New" Margin="0,10,0,0"/>
+        </Grid>
     </Grid>
 </Window>

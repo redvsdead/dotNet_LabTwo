@@ -55,6 +55,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LEConverter.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="RemoveCommand.cs" />
+    <Compile Include="ViewModels\DiseaseViewModel.cs" />
+    <Compile Include="ViewModels\Initializer.cs" />
+    <Compile Include="ViewModels\UserListViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Page Include="AppStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -69,6 +80,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Disease.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
